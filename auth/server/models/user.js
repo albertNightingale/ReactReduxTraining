@@ -46,6 +46,7 @@ userSchema.pre('save', function(next){
 
 // add a function for the UserSchema object
 userSchema.methods.comparePassword = function(candidatePassword, callback) {
+    // compare the enteredPassword with the real password. call the Callback when done
     bcrypt.compare(candidatePassword, this.password, function(err, isMatch) {
         if (err) {
             return callback(err);

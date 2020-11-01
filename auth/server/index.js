@@ -7,15 +7,15 @@ const app = express();
 const router = require('./router'); 
 const mongoose = require('mongoose');
 
-// DB Setup
+////////// DB Setup
 const connectInfo = 'mongodb://localhost:auth/auth';
-
 
 mongoose.connect(connectInfo, { useNewUrlParser: true, useUnifiedTopology: true })
 .then(() => console.log('DB Connected!')) 
 .catch(err => {
     console.log("DB Connection Error: " + err.message);
 });
+
 
 ///// App Setup
 

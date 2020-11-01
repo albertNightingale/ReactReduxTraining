@@ -1,4 +1,14 @@
-const UserSchema = require('../models/user');
+/******
+ * This file is to setup ways to authenticate a client. 
+ * 
+ * - jwtOptions is to take the encoded string by a secret string, and decode the string with the same 
+ * secret. This is going to used whenever the user is logged in
+ * - one option is 
+ */
+
+// Strategy is a strategy for verification
+
+const User = require('../models/user');
 const config = require('../config');
 
 const passport = require('passport');
@@ -12,7 +22,7 @@ const LocalStrategy = require('passport-local'); // local database
 const jwtOptions = {
     // tell the strategy where to look for the authentication
     // tell strategy to find authentication from the request header under authorization tag
-    jwtFromRequest: ExtractJwt.fromHeader('Authorization'), 
+    jwtFromRequest: ExtractJwt.fromHeader('authorization'), 
     // tell the strategy to decode the payload encoded using the secret
     secretOrKey: config.secret
 };
@@ -22,8 +32,7 @@ const jwtLogIn = new JwtStrategy (jwtOptions, (payload, done) => {
     // See if the user ID in the payload exists in our database
     // If it does, call 'done' with that user
     // otherwise call done without a user object
-
-    UserSchema.findById(payload.sub, function (err, user) {
+    User.findById(payload.sub, function (err, user) {
             // first argument is error, second argument is the object
         if (err) {  return done(err, false); }
 
@@ -36,8 +45,10 @@ const jwtLogIn = new JwtStrategy (jwtOptions, (payload, done) => {
     })
 });
 
-//// Tell passport to use this strategy
+// Tell passport to use this strategy
 passport.use(jwtLogIn)
+
+
 
 
 ///// create local strategy 
@@ -51,7 +62,7 @@ const localLogIn = new LocalStrategy(localOptions, function(email, password, don
         email: email
     };
 
-    UserSchema.findOne(emailLookUp, (err, userSearchResult) => {
+    User.findOne(emailLookUp, (err, userSearchResult) => {
         if (err)  // not able to perform read operation
         {
             return next(err);
