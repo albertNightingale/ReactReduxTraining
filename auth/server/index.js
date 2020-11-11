@@ -6,6 +6,7 @@ const { listenerCount } = require('process');
 const app = express();
 const router = require('./router'); 
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 ////////// DB Setup
 const connectInfo = 'mongodb://localhost:auth/auth';
@@ -21,6 +22,7 @@ mongoose.connect(connectInfo, { useNewUrlParser: true, useUnifiedTopology: true 
 
 // middleware of the request 
 app.use(morgan('combined'));   // morgan is for logging incoming requests
+app.use(cors());    // for cors error, allow all sites making requests. 
 app.use(bodyParser.json({type: '*/*'}));   // parse incoming requests  
 router(app); 
 

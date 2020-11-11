@@ -11,3 +11,6 @@ https://www.udemy.com/course/react-redux-tutorial/learn/lecture/4755196#overview
 
 
 ## Require config.js file to run, which will contain come secret credentials
+
+
+## Using Node.js 
